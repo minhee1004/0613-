@@ -1,6 +1,8 @@
 class Ball extends GameObject {
     constructor(container, src, width, height,x,y,velX,velY){
         super(container, src, width, height,x,y,velX,velY);
+        
+        this.falled=false;
 
         //container,width,height,x,y,bg
         this.leftSensor=new LeftSensor(this.container,1,20,this.x-1,this.y+5,"red");
@@ -12,20 +14,21 @@ class Ball extends GameObject {
     /*
     hitCheck(){
        
-        for(let i=0;i<brickArray.length;i++){
-            let result=collisionCheck(this , brickArray[i]);
+        for(let i=0; i<barArray.length; i++){
+            let result=collisionCheck(this , barArray[i]);
             
             if(result){
                 
-                (this.x+this.width)>=brickArray[i];
+                this.y=barArray[i].y - this.height;
+                this.falled=true;
                 
                
             }
         }   
     }
-    */
+    
 
-
+*/
     tick(){
         this.x+=this.velX;
         this.y+=this.velY;  
@@ -35,7 +38,6 @@ class Ball extends GameObject {
         }
         if(this.y>=800-25 || this.y<=0){
             this.velY=-this.velY;
-            
         }
 
         this.leftSensor.tick(this);
@@ -50,8 +52,7 @@ class Ball extends GameObject {
         this.bottomSensor.tick(this);
         this.bottomSensor.render();
 
-    
-       
+     
     }
     
 }

@@ -16,6 +16,7 @@
             background: rgb(180, 214, 253);
             margin: auto;
             position: relative;
+            overflow: hidden;
         }
     </style>
     <script src="./GameObject.js"></script>
@@ -35,38 +36,49 @@
         let bar;
 
         let brickArray = []; 
-        
     
-
         
-
         function createBall() {
            ball=new Ball(wrapper, "./images/ball.png", 30, 30, 250, 700, 10, 10);
-
-            //let velX=getRandomByRange(1,20);
-            //let velY=getRandomByRange(1,20);
 
 
         }
 
 
         function createBrick() {
-                for (let i = 0; i < 12; i++) {
-
+           
+                for (let i = 0; i <12; i++) {
                     //container, src, width, height,x,y,velX,velY
                     brickArray.push(new Brick(wrapper,"./images/brick.png",42,42,i*42,100,0,0));
+                    
 
-                }
+                
+            }
         }
 
         function createBar(){
-            bar=new Bar(wrapper, "./images/bar.png",50,50, 200,700,0,5);
+            bar=new Bar(wrapper, "./images/bar.png",50,50, 200,700,0,0);
 
         }
+       
 
         function moveX(n){
             bar.velX=n;
+
         }
+
+        function ballmoveY(n){
+            for(let i=0; i<brickArray.length; i++){
+                let result=collisionCheck(ball.topSensor, brickArray[i]);
+
+                if(result){
+                    ball.velY=flag;
+
+                }
+            }
+            ball.velY=!flag;
+        }
+
         
         function init() {      
             wrapper = document.getElementById("wrapper");
@@ -77,14 +89,14 @@
         
         function loop(){
             if(flag){
-               ball.tick();
-               ball.render();
-                
+                ball.tick();
+                ball.render();
                 }
                 bar.tick();
                 bar.render();
-                
             }
+                
+
         
 
         addEventListener("load", function () {
@@ -95,9 +107,16 @@
                    //console.log("ddddd")
                     switch(e.keyCode){
                     case 27:flag=!flag;break; //esc
-                    case 37:moveX(-2);break;//좌
-                    case 39:moveX(2);break;//우
+                    case 37:moveX(-10);break;//좌
+                    case 39:moveX(10);break;//우
                     }
+                });
+                document.body.addEventListener("keyup",function(e){
+                    switch(e.keyCode){
+                    case 37:moveX(0);break;
+                    case 39:moveX(0);break;
+                    }
+
                 });
 
             });
