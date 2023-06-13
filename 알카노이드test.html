@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알카노이드 test</title>
+    <style>
+        body {
+            margin: 0px
+        }
+
+        #wrapper {
+            width: 500px;
+            height: 800px;
+            background: rgb(180, 214, 253);
+            margin: auto;
+            position: relative;
+        }
+    </style>
+    <script src="./GameObject.js"></script>
+    <script src="./Bar.js"></script>
+    <script src="./Ball.js"></script>
+    <script src="./Brick.js"></script>
+    <script src="./Sensor.js"></script>
+    <script src="./LeftSensor.js"></script>
+    <script src="./RightSensor.js"></script>
+    <script src="./TopSensor.js"></script>
+    <script src="./BottomSensor.js"></script>
+    <script src="../js/lib.js"></script>
+    <script>
+        let wrapper;
+        let ball; //주인공
+        let flag = true; //루프수행  
+        let bar;
+
+        let brickArray = []; 
+        
+    
+
+        
+
+        function createBall() {
+           ball=new Ball(wrapper, "./images/ball.png", 30, 30, 250, 700, 10, 10);
+
+            //let velX=getRandomByRange(1,20);
+            //let velY=getRandomByRange(1,20);
+
+
+        }
+
+
+        function createBrick() {
+                for (let i = 0; i < 12; i++) {
+
+                    //container, src, width, height,x,y,velX,velY
+                    brickArray.push(new Brick(wrapper,"./images/brick.png",42,42,i*42,100,0,0));
+
+                }
+        }
+
+        function createBar(){
+            bar=new Bar(wrapper, "./images/bar.png",50,50, 200,700,0,5);
+
+        }
+
+        function moveX(n){
+            bar.velX=n;
+        }
+        
+        function init() {      
+            wrapper = document.getElementById("wrapper");
+            createBrick(); //벽돌생성
+            createBall(); //공 생성
+            createBar(); //바 생성
+        }
+        
+        function loop(){
+            if(flag){
+               ball.tick();
+               ball.render();
+                
+                }
+                bar.tick();
+                bar.render();
+                
+            }
+        
+
+        addEventListener("load", function () {
+            init();
+            setInterval("loop()", 30);
+
+            document.body.addEventListener("keydown", function (e) {
+                   //console.log("ddddd")
+                    switch(e.keyCode){
+                    case 27:flag=!flag;break; //esc
+                    case 37:moveX(-2);break;//좌
+                    case 39:moveX(2);break;//우
+                    }
+                });
+
+            });
+        
+
+
+    </script>
+</head>
+
+<body>
+    <div id="wrapper"></div>
+</body>
+
+</html>
